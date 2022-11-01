@@ -1,0 +1,25 @@
+name: 'Terraform - Staging'
+
+on:
+  push:
+    branches:
+    - main
+  pull_request:
+
+jobs: 
+  terraform:
+    runs-on: ubuntu-latest
+    name: Terraform
+    steps:
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.1.9
+        terraform_wrapper: false
+
+    - name: Terraform Init
+      id: init
+      run: terraform init
+      working-directory: ./terraform
+      shell: bash
