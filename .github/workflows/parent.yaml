@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       runners:
-        type: number
+        type: string
         required: true
 
 
@@ -12,4 +12,4 @@ jobs:
   test:
     uses: stpride/test1/.github/workflows/shared.yaml@main
     with:
-      count: 'elf'
+      count: '${{ inputs.runners }}'
