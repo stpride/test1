@@ -4,8 +4,7 @@ on:
   workflow_call:
     inputs:
       count:
-        type: string
-        default: '2'
+        type: boolean
 
 defaults:
   run:
@@ -16,10 +15,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository code
-        run: |
-          aaa=$((${{ inputs.count }}))
-          echo $aaa
-          if [ "${{ inputs.count }}" != "0" -a $aaa -eq 0 ]; then
-            echo "Error: invalid input"
-            exit 1
-          fi
+        run: echo "hello"
