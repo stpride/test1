@@ -5,6 +5,8 @@ on:
     inputs:
       count:
         type: boolean
+        required: true
+        default: true
 
 defaults:
   run:
@@ -15,4 +17,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository code
-        run: echo "hello"
+        run: echo ${{ inputs.count }}
+        
+      - name: IfTrue
+        if: inputs.count == true
+        run: echo "TRUE"
+        
+      - name: IfFalse
+        if: inputs.count == false
+        run: echo "FALSE"
