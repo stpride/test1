@@ -1,0 +1,15 @@
+name: Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      runners:
+        type: number
+        required: true
+
+
+jobs:
+  test:
+    uses: stpride/test1/.github/workflows/shared.yaml@main
+    with:
+      count: ${{ inputs.runners }}
