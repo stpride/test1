@@ -12,4 +12,4 @@ jobs:
   test:
     uses: stpride/test1/.github/workflows/shared.yaml@main
     with:
-      count: ${{ inputs.runners }}
+      count: 'elf'
