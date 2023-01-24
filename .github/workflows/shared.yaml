@@ -4,8 +4,8 @@ on:
   workflow_call:
     inputs:
       count:
-        type: number
-        default: 2
+        type: string
+        default: '2'
 
 defaults:
   run:
@@ -16,4 +16,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository code
-        run: echo ${{ inputs.count }}
+        run: |
+          aaa=$((${{ inputs.count }}))
+          echo $aaa
