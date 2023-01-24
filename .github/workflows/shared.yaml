@@ -19,3 +19,7 @@ jobs:
         run: |
           aaa=$((${{ inputs.count }}))
           echo $aaa
+          if [ "${{ inputs.count }}" != "0" -a $aaa -eq 0 ]; then
+            echo "Error: invalid input"
+            exit 1
+          fi
