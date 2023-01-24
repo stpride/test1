@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       runners:
-        type: string
+        type: boolean
         required: true
 
 
