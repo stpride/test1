@@ -12,4 +12,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: my-test
-        run: ./mytest.sh
+        run: |
+          chmod 755 ./mytest.sh
+          ./mytest.sh
