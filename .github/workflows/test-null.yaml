@@ -31,3 +31,4 @@ jobs:
           terraform init
           terraform plan -var=python_version=${{ env.PYTHON_VERSION }} -var=src_dir=../src/lambda-layers/flochat-auth -out ./tfplan.out
           terraform apply -auto-approve ./tfplan.out
+          ls -l /tmp
