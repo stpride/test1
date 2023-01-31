@@ -27,3 +27,10 @@ resource "null_resource" "test" {
     EOF
   }
 }
+
+data "archive_file" "layer_zip" {
+  type        = "zip"
+  output_path = "/tmp/layer.zip"
+  source_dir  = "./python"
+  depends_on  = [null_resource.test]
+}
