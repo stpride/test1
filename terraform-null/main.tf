@@ -18,7 +18,9 @@ resource "null_resource" "test" {
 
   provisioner "local-exec" {
     command = <<EOF
+      echo "BEFORE=$(pwd)"
       cd ${var.src_dir}
+      echo "AFTER=$(pwd)"
       docker run \
         -v "$PWD":/var/task \
         "public.ecr.aws/sam/build-${var.python_version}" \
