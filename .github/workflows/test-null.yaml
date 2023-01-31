@@ -1,0 +1,31 @@
+name: Test Null
+
+on:
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: python3.9
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-null:
+    name: 'Test Null'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 0.15.4
+          terraform_wrapper: false
+
+      - name: Run Terraform
+        working-directory: terraform-null
+        run: |
+          terraform plan
