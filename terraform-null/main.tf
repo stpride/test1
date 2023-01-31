@@ -32,6 +32,6 @@ resource "null_resource" "test" {
 data "archive_file" "layer_zip" {
   type        = "zip"
   output_path = "/tmp/layer.zip"
-  source_dir  = "./python"
+  source_dir  = var.src_dir
   depends_on  = [null_resource.test]
 }
