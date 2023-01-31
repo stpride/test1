@@ -29,8 +29,8 @@ jobs:
         working-directory: terraform-null
         run: |
           terraform init
-          terraform plan -var=python_version=${{ env.PYTHON_VERSION }} -var=src_dir=${{ env.GITHUB_WORKSPACE }}/src/lambda-layers/flochat-auth -out ./tfplan.out
-          echo "DIRECTORY=${{ env.GITHUB_WORKSPACE }}"
+          terraform plan -var=python_version=${{ env.PYTHON_VERSION }} -var=src_dir=$GITHUB_WORKSPACE/src/lambda-layers/flochat-auth -out ./tfplan.out
+          echo "DIRECTORY=$(pwd)"
           terraform apply -auto-approve ./tfplan.out
           ls -l /tmp
           ls -l
