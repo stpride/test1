@@ -18,12 +18,12 @@ resource "null_resource" "test" {
 
   provisioner "local-exec" {
     command = <<EOF
-      rm -rf ./python > /dev/null
-      cp -a ${var.src_dir}/python .
+      rm -rf /tmp/python > /dev/null
+      cp -a ${var.src_dir}/python /tmp/
       docker run \
         -v "$PWD":/var/task \
         "public.ecr.aws/sam/build-${var.python_version}" \
-        /bin/sh -c "pip install -r ./python/requirements.txt -t ./python/; exit"
+        /bin/sh -c "pip install -r /tmp/python/requirements.txt -t /tmp/python/; exit"
     EOF
   }
 }
@@ -31,6 +31,6 @@ resource "null_resource" "test" {
 data "archive_file" "layer_zip" {
   type        = "zip"
   output_path = "/tmp/layer.zip"
-  source_dir  = "./python"
+  source_dir  = "/tmp/python"
   depends_on  = [null_resource.test]
 }
