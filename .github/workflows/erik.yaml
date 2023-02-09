@@ -1,11 +1,11 @@
 name: 'Environment output'
 
-on: [workflow_dispatch]
-
-inputs:
-  environment:
-    description: 'Environment name to look up'
-    required: false
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment name to look up'
+        required: false
 
 #outputs:
 #  environment:
