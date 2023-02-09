@@ -13,12 +13,14 @@ inputs:
 #  account_number:
 #    value: ${{ steps.export.outputs.account_number }}
 
-jobs: 
-  test:
+jobs:
+  test1:
+    name: 'Test1'
     runs-on: ubuntu-latest
-    name: Test
-    steps: 
-      - uses: kanga333/variable-mapper@master
+
+    steps:          
+      - name: Get data
+        uses: kanga333/variable-mapper@master
         with:
           key: "endsWith(${{github.ref}})"
           id : export
@@ -35,7 +37,7 @@ jobs:
               }
           }
         export_to: env,log,output 
-
+        
       - name: Echo environment and output
         shell: bash
         run: |
