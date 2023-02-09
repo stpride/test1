@@ -1,0 +1,83 @@
+name: 'Environment output'
+
+on: [workflow_dispatch]
+
+inputs:
+  environment:
+    description: 'Environment name to look up'
+    required: false
+
+outputs:
+  environment:
+    value: ${{ steps.export.outputs.environment }}
+  account_number:
+    value: ${{ steps.export.outputs.account_number }}
+
+jobs:
+  using: 'composite'
+  steps: 
+    - uses: kanga333/variable-mapper@master
+      with:
+        key: "endsWith(${{github.ref}})"
+        id : export
+        shell: bash
+        map: |
+          {
+            "fq1": {
+              "environment": "fq1",
+              "account_number": "489861588985"
+            },
+            "fq2": {
+              "environment": "fq2",
+              "account_number": "489241660343"
+            },
+            "fq4": {
+              "environment": "fq4",
+              "account_number": "654330165882"
+            },
+            "fq5": {
+              "environment": "fq5",
+              "account_number": "710865598557"
+            },
+            "fq6": {
+              "environment": "fq6",
+              "account_number": "300120355739"
+            },
+            "fq7": {
+              "environment": "fq7",
+              "account_number": "164859067097"
+            },
+            "fq8": {
+              "environment": "fq8",
+              "account_number": "760812595937"
+            },
+            "fq9": {
+              "environment": "fq9",
+              "account_number": "716387646408"
+            },
+            "fq10": {
+              "environment": "fq10",
+              "account_number": "880916961921"
+            },
+            "fq11": {
+              "environment": "fq11",
+              "account_number": "144078351060"
+            },
+            "fq12": {
+              "environment": "fq12",
+              "account_number": "617739438897"
+            }
+          }
+        export_to: env,log,output 
+
+    - name: Echo environment and output
+      shell: bash
+      run: |
+        echo "environment=${{ env.environment }}" >> $GITHUB_OUTPUT
+        echo "account_number=${{ env.account_number }}" >> $GITHUB_OUTPUT  
+    # - name: Input
+    #   shell: bash
+    #   run: |
+    #     if [[ ${{ inputs.environment }} > 0 ]]; then
+    #       echo "${{ inputs.environment }}, ${{ steps.export.outputs.account_number }}"
+    #     fi      
