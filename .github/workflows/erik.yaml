@@ -7,11 +7,11 @@ inputs:
     description: 'Environment name to look up'
     required: false
 
-outputs:
-  environment:
-    value: ${{ steps.export.outputs.environment }}
-  account_number:
-    value: ${{ steps.export.outputs.account_number }}
+#outputs:
+#  environment:
+#    value: ${{ steps.export.outputs.environment }}
+#  account_number:
+#    value: ${{ steps.export.outputs.account_number }}
 
 jobs: 
   terraform:
