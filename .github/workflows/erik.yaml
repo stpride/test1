@@ -30,7 +30,7 @@ jobs:
                 "environment": "aaa",
                 "account_number": "1000"
               },
-              "two": {
+              ".*": {
                 "environment": "bbb",
                 "account_number": "9999"
               }
