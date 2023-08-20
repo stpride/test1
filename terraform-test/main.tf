@@ -24,10 +24,14 @@ variable subscriptions {
 }
 
 locals {
-  data = {
-      for sub in var.subscriptions: "${sub.protocol}-${sub.endpoint}" => sub.endpoint
+  #data = {
+  #    for sub in var.subscriptions: "${sub.protocol}-${sub.endpoint}" => sub.endpoint
+  #    if sub.protocol == "lambda"
+  #}
+  data = [
+      for sub in var.subscriptions: sub.endpoint
       if sub.protocol == "lambda"
-  }
+  ]
 }
 
 output stuff {
