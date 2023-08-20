@@ -22,3 +22,6 @@ locals {
   }
 }
 
+outputs stuff {
+  value = local.data
+}
