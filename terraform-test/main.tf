@@ -3,7 +3,10 @@ provider aws {
 }
 
 variable subscriptions {
-  type = list(object)
+  type = list(object({
+      protocol = string
+      value    = string
+  }))
   default = [
     {
       protocol = "lambda"
@@ -19,7 +22,3 @@ locals {
   }
 }
 
-outputs something {
-  description = "data after extrapolation"
-  value = local.data
-}
