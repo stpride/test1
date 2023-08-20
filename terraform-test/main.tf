@@ -11,6 +11,14 @@ variable subscriptions {
     {
       protocol = "lambda"
       endpoint = "arn:aws:lambda:us-west-2:123456789012:function:my-function"
+    },
+    {
+      protocol = "sqs"
+      endpoint = "arn:aws:sqs:us-west-2:123456789012:function:my-function"
+    },
+    {
+      protocol = "lambda"
+      endpoint = "arn:aws:lambda:us-west-2:123456789012:function:my-second-function"
     }
   ]
 }
