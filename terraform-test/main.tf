@@ -22,6 +22,6 @@ locals {
   }
 }
 
-outputs stuff {
+output stuff {
   value = local.data
 }
