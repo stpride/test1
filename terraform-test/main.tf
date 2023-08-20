@@ -28,8 +28,12 @@ locals {
   #    for sub in var.subscriptions: "${sub.protocol}-${sub.endpoint}" => sub.endpoint
   #    if sub.protocol == "lambda"
   #}
+  #data = [
+  #    for sub in var.subscriptions: sub.endpoint
+  #    if sub.protocol == "lambda"
+  #]
   data = [
-      for sub in var.subscriptions: sub.endpoint
+      for sub in var.subscriptions: split(":",sub.endpoint)[length(split(":",sub.endpoint) - 1]
       if sub.protocol == "lambda"
   ]
 }
