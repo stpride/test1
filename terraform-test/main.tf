@@ -5,7 +5,7 @@ provider aws {
 variable subscriptions {
   type = list(object({
       protocol = string
-      value    = string
+      endpoint = string
   }))
   default = [
     {
