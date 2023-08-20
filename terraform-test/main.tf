@@ -15,7 +15,7 @@ variable subscriptions {
 locals {
   data = {
       for sub in var.subscriptions: "${sub.protocol}-${sub.endpoint}" => sub
-      if sub.protocol = "lambda"
+      if sub.protocol == "lambda"
   }
 }
 
