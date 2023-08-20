@@ -33,7 +33,7 @@ locals {
   #    if sub.protocol == "lambda"
   #]
   data = [
-      for sub in var.subscriptions: split(":",sub.endpoint)[length(split(":",sub.endpoint) - 1]
+      for sub in var.subscriptions: split(":",sub.endpoint)[6]
       if sub.protocol == "lambda"
   ]
 }
