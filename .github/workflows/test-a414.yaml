@@ -9,8 +9,22 @@ defaults:
 jobs:
   test:
     runs-on: ubuntu-latest
+    continue-on-error: false
+    strategy:
+      fail-fast: true
+      matrix:
+        environment: [ "AAA","BBB","CCC" ]
     steps:
       - uses: actions/checkout@v3
-      - name: my-test
+      - name: step-1
         run: |
-          echo "Hello World!"
+          echo "Hello Step-1 ${{ matrix.deploy-environment }}!"
+          sleep 5
+      - name: step-2
+        run: |
+          echo "Hello Step-2 ${{ matrix.deploy-environment }}!"
+          sleep 5
+      - name: step-3
+        run: |
+          echo "Hello Step-3 ${{ matrix.deploy-environment }}!"
+          sleep 5
