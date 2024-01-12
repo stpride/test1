@@ -8,109 +8,20 @@ on:
         required: false
         type: choice
         options:
-        - AAA-100
-        - AAA-101
-        - AAA-102
-        - AAA-103
-        - AAA-104
-        - AAA-105
-        - AAA-106
-        - AAA-107
-        - AAA-108
-        - AAA-109
-        - AAA-110
-        - AAA-111
-        - AAA-112
-        - AAA-113
-        - AAA-114
-        - AAA-115
-        - AAA-116
-        - AAA-117
-        - AAA-118
-        - AAA-119
-        - AAA-120
-        - AAA-121
-        - AAA-122
-        - AAA-123
-        - AAA-124
-        - AAA-125
-        - AAA-126
-        - AAA-127
-        - AAA-128
-        - AAA-129
-        - AAA-130
-        - AAA-131
-        - AAA-132
-        - AAA-133
-        - AAA-134
-        - AAA-135
-        - AAA-136
-        - AAA-137
-        - AAA-138
-        - AAA-139
-        - AAA-140
-        - AAA-141
-        - AAA-142
-        - AAA-143
-        - AAA-144
-        - AAA-145
-        - AAA-146
-        - AAA-147
-        - AAA-148
-        - AAA-149
-        - AAA-150
-        - AAA-151
-        - AAA-152
-        - AAA-153
-        - AAA-154
-        - AAA-155
-        - AAA-156
-        - AAA-157
-        - AAA-158
-        - AAA-159
-        - AAA-160
-        - AAA-161
-        - AAA-162
-        - AAA-163
-        - AAA-164
-        - AAA-165
-        - AAA-166
-        - AAA-167
-        - AAA-168
-        - AAA-169
-        - AAA-170
-        - AAA-171
-        - AAA-172
-        - AAA-173
-        - AAA-174
-        - AAA-175
-        - AAA-176
-        - AAA-177
-        - AAA-178
-        - AAA-179
-        - AAA-180
-        - AAA-181
-        - AAA-182
-        - AAA-183
-        - AAA-184
-        - AAA-185
-        - AAA-186
-        - AAA-187
-        - AAA-188
-        - AAA-189
-        - AAA-190
-        - AAA-191
-        - AAA-192
-        - AAA-193
-        - AAA-194
-        - AAA-195
-        - AAA-196
-        - AAA-197
-        - AAA-198
-        - AAA-199
+        - AAA
+        - BBB
+        - CCC
 
+env:
+  engine: >
+    ${{ fromJson('{
+      "AAA": "analytics",
+      "BBB": "calculations",
+      "CCC": "data"
+    }')[github.event.inputs.resource] }}
+    
 jobs:
   test:
     uses: stpride/test1/.github/workflows/dd-out.yaml@main
     with:
-      resource: ${{ inputs.resource }}
+      resource: ${{ env.engine }}
