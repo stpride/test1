@@ -7,7 +7,24 @@ on:
         description: 'AWS resource group to use'
         required: true
         type: string
-
+        
+env:
+  DATA: >
+    ${{ fromJson('{
+      "AAA": {
+        "tfkey": "analytics",
+        "tfdir": "fq/analytics"
+      },
+      "BBB": {
+        "tfkey": "calculations",
+        "tfdir": "fq/calculations"
+      },
+      "CCC": {
+        "tfkey": "goofy",
+        "tfdir": "fq/goofy"
+      },
+    }')[github.event.inputs.resource] }}
+  
 jobs:
   job5:
     runs-on: ubuntu-latest
@@ -15,4 +32,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo ${{ inputs.resource }}
+          echo ${{ env.DATA }}
