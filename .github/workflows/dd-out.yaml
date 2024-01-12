@@ -9,7 +9,7 @@ on:
         type: string
         
 env:
-  DATA: "{\"AAA\": \"xyz\"}"
+  DATA: '{"AAA": "xyz"}'
   
 jobs:
   job5:
@@ -19,4 +19,4 @@ jobs:
         shell: bash
         run: |
           echo ${{ inputs.resource }}
-          echo ${{ fromJson(env.DATA)[github.event.inputs.resource] }}
+          echo ${{ fromJSON(env.DATA)[inputs.resource] }}
