@@ -8,13 +8,10 @@ on:
         required: true
         type: string
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   job5:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository code
-        run: echo ${{ inputs.count }}
+      - name: Test
+        shell: bash
+        run: echo "Data was: ${{inputs.resource}}"
