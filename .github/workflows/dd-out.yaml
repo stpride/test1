@@ -1,0 +1,20 @@
+name: Test DD Out
+
+on:
+  workflow_call:
+    inputs:
+      resource:
+        description: 'AWS resource group to use'
+        required: true
+        type: string
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  job5:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository code
+        run: echo ${{ inputs.count }}
