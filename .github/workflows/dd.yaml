@@ -11,28 +11,9 @@ on:
         - AAA
         - BBB
         - CCC
-
-env:
-  resource: 'AAA'
   
 jobs:
   test:
     uses: stpride/test1/.github/workflows/dd-out.yaml@main
     with:
-      resource: ${{ env.resource }}
-    #with:
-    #  resource: >
-    #    ${{ fromJson('{
-    #      "AAA": {
-    #        "tfkey": "analytics",
-    #        "tfdir": "fq/analytics"
-    #      },
-    #      "BBB": {
-    #        "tfkey": "calculations",
-    #        "tfdir": "fq/calculations"
-    #      },
-    #      "CCC": {
-    #        "tfkey": "goofy",
-    #        "tfdir": "fq/goofy"
-    #      },
-    #    }')[github.event.inputs.data] }}
+      resource: ${{ inputs.data }}
