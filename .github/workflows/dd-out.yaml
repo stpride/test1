@@ -32,4 +32,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo ${{ fromJson(env.DATA)[inputs.resource]['tkfey'] }}
+          echo ${{ fromJson(env.DATA)[github.event.inputs.resource]['tkfey'] }}
