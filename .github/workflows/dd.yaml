@@ -24,4 +24,4 @@ jobs:
   test:
     uses: stpride/test1/.github/workflows/dd-out.yaml@main
     with:
-      resource: .env.$ENGINE
+      resource: ${{ env.ENGINE }}
