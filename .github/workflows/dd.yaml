@@ -110,10 +110,7 @@ on:
         - AAA-199
 
 jobs:
-  job1:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Test
-        shell: bash
-        run: |
-          echo "Data was: ${{inputs.resource}}"
+  test:
+    uses: stpride/test1/.github/workflows/dd-out.yaml@main
+    with:
+      resource: ${{ inputs.resource }}
