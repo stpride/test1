@@ -18,4 +18,5 @@ jobs:
       - name: Test
         shell: bash
         run: |
+          echo ${{ inputs.resource }}
           echo ${{ fromJson(env.DATA)[github.event.inputs.resource] }}
