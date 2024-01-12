@@ -10,7 +10,7 @@ on:
         
 env:
   DATA: >
-    {"AAA": { "key": { "xyz" } } }
+    {"AAA": { "key": "xyz" } }
   
 jobs:
   job5:
