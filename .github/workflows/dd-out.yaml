@@ -9,7 +9,8 @@ on:
         type: string
         
 env:
-  DATA: '{"AAA": "xyz"}'
+  DATA: >
+    {"AAA": "xyz"}
   
 jobs:
   job5:
