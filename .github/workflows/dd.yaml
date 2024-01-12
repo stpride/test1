@@ -3,8 +3,8 @@ name: Test DD
 on:
   workflow_dispatch:
     inputs:
-      resource:
-        description: 'Resource'
+      data:
+        description: 'Data'
         required: false
         type: choice
         options:
@@ -12,16 +12,13 @@ on:
         - BBB
         - CCC
 
-env:
-  ENGINE: >
-    ${{ fromJson('{
-      "AAA": "analytics",
-      "BBB": "calculations",
-      "CCC": "data"
-    }')[github.event.inputs.resource] }}
-    
 jobs:
   test:
     uses: stpride/test1/.github/workflows/dd-out.yaml@main
     with:
-      resource: ${{ env.ENGINE }}
+      resource: >
+        ${{ fromJson('{
+          "AAA": "analytics",
+          "BBB": "calculations",
+          "CCC": "data"
+        }')[github.event.inputs.data] }}
