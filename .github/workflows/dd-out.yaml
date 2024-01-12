@@ -10,7 +10,7 @@ on:
         
 env:
   DATA: >
-    ${{ fromJson('{
+    {
       "AAA": {
         "tfkey": "analytics",
         "tfdir": "fq/analytics"
@@ -23,7 +23,7 @@ env:
         "tfkey": "goofy",
         "tfdir": "fq/goofy"
       },
-    }')[github.event.inputs.resource] }}
+    }
   
 jobs:
   job5:
@@ -32,4 +32,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo ${{ fromJson(env.DATA)['tkfey'] }}
+          echo ${{ fromJson(env.DATA)[inputs.resource]['tkfey'] }}
