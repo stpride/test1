@@ -10,7 +10,7 @@ on:
         
 env:
   DATA: >
-    {"AAA": "xyz"}
+    {"AAA": { "key": { "xyz" } } }
   
 jobs:
   job5:
@@ -20,4 +20,4 @@ jobs:
         shell: bash
         run: |
           echo ${{ inputs.resource }}
-          echo ${{ fromJSON(env.DATA)[inputs.resource] }}
+          echo ${{ fromJSON(env.DATA)[inputs.resource]['key'] }}
