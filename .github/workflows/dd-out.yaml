@@ -15,4 +15,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo "Data was: ${{inputs.resource}}"
+          echo "tfkey = $(fromJson(inputs.resource)['tfkey'])"
