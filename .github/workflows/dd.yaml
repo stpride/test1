@@ -18,7 +18,16 @@ jobs:
     with:
       resource: >
         ${{ fromJson('{
-          "AAA": "analytics",
-          "BBB": "calculations",
-          "CCC": "data"
+          "AAA": {
+            "tfkey": "analytics",
+            "tfdir": "fq/analytics"
+          },
+          "BBB": {
+            "tfkey": "calculations",
+            "tfdir": "fq/calculations"
+          },
+          "CCC": {
+            "tfkey": "goofy",
+            "tfdir": "fq/goofy"
+          },
         }')[github.event.inputs.data] }}
