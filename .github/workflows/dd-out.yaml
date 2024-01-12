@@ -3,7 +3,7 @@ name: Test DD Out
 on:
   workflow_call:
     inputs:
-      resource:
+      engine:
         description: 'AWS resource group to use'
         required: true
         type: string
@@ -15,4 +15,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo "Data was: ${{inputs.resource}}"
+          echo "Data was: ${{inputs.engine}}"
