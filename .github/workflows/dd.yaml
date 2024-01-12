@@ -13,7 +13,7 @@ on:
         - CCC
 
 env:
-  engine: >
+  ENGINE: >
     ${{ fromJson('{
       "AAA": "analytics",
       "BBB": "calculations",
@@ -24,4 +24,4 @@ jobs:
   test:
     uses: stpride/test1/.github/workflows/dd-out.yaml@main
     with:
-      resource: ${{ env.engine }}
+      resource: .env.$ENGINE
