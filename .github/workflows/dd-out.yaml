@@ -9,21 +9,7 @@ on:
         type: string
         
 env:
-  DATA: >
-    {
-      "AAA": {
-        "tfkey": "analytics",
-        "tfdir": "fq/analytics"
-      },
-      "BBB": {
-        "tfkey": "calculations",
-        "tfdir": "fq/calculations"
-      },
-      "CCC": {
-        "tfkey": "goofy",
-        "tfdir": "fq/goofy"
-      },
-    }
+  DATA: "{\"AAA\": \"xyz\"}"
   
 jobs:
   job5:
@@ -32,4 +18,4 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo ${{ fromJson(env.DATA)[github.event.inputs.resource]['tkfey'] }}
+          echo ${{ fromJson(env.DATA)[github.event.inputs.resource] }}
