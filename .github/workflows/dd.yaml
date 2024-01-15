@@ -18,7 +18,7 @@ env:
       "AAA": {
         "key": "aaa-key",
         "dir": "fq/aaa-dir",
-        "use_domain": 0
+        "use_domain": "true"
       },
       "BBB": {
         "key": "bbb-key",
@@ -27,7 +27,7 @@ env:
       "CCC": {
         "key": "ccc-key",
         "dir": "fq/ccc-dir",
-        "use_domain": 0
+        "use_domain": "true"
       },
     }
     
