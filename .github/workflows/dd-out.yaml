@@ -3,18 +3,18 @@ name: Test DD Out
 on:
   workflow_call:
     inputs:
-      resource:
-        description: 'AWS resource group to use'
+      tfkey:
+        description: 'AWS resource key'
         required: true
         type: string
-        
-env:
-  DATA: >
-    {
-      "AAA": { "key": "xyz" },
-      "BBB": { "key": "123" },
-      "CCC": { "key": "###" }
-    }
+      tfdir:
+        description: 'AWS resource dir'
+        required: true
+        type: string
+      use_domain:
+        description: 'Set TF_VAR_fq_domain=main'
+        type: number
+        default: 0
   
 jobs:
   job5:
@@ -23,5 +23,6 @@ jobs:
       - name: Test
         shell: bash
         run: |
-          echo ${{ inputs.resource }}
-          echo ${{ fromJSON(env.DATA)[inputs.resource]['key'] }}
+          echo "tfkey=${{ inputs.tfkey }}"
+          echo "tfdir=${{ inputs.tfdir }}"
+          echo "use_domain=${{ inputs.use_domain }}"
