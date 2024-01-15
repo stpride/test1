@@ -13,7 +13,6 @@ on:
         - CCC
 
 env:
-  QUEUE: "joker"
   RESOURCES: >
     {
       "AAA": {
@@ -39,9 +38,12 @@ jobs:
       - name: Setup resource values
         shell: bash
         run: |
-          echo "queue=${{ env.QUEUE }}"
-          key="${{ fromJson(env.RESOURCES)[inputs.resource]['key'] }}"
-          echo "key=$key"
+          tfkey="${{ fromJson(env.RESOURCES)[inputs.resource]['key'] }}"
+          echo "key=$tfkey"
+          tfdir="${{ fromJson(env.RESOURCES)[inputs.resource]['dir'] }}"
+          echo "dir=$tfdir"
+          use_domain="${{ fromJson(env.RESOURCES)[inputs.resource]['use_domain'] }}"
+          echo "use_domain=$use_domain"
           
   #test:
   #  uses: stpride/test1/.github/workflows/dd-out.yaml@main
