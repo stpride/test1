@@ -33,7 +33,7 @@ env:
     
 jobs:
   Setup:
-    runs-on: ubunut-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Setup resource values
         shell: bash
