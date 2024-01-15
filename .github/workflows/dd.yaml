@@ -34,18 +34,25 @@ env:
 jobs:
   Setup:
     runs-on: ubuntu-latest
+    outputs:
+      tfkey: ${{ steps.setup.outputs.tfkey }}
+      tfdir: ${{ steps.setup.outputs.tfdir }}
+      use_domain: ${{ steps.setup.outputs.use_domain }}
     steps:
       - name: Setup resource values
+        id: setup
         shell: bash
         run: |
           tfkey="${{ fromJson(env.RESOURCES)[inputs.resource]['key'] }}"
-          echo "key=$tfkey"
+          echo "tfkey=$tfkey" >> $GITHUB_OUTPUT
           tfdir="${{ fromJson(env.RESOURCES)[inputs.resource]['dir'] }}"
-          echo "dir=$tfdir"
+          echo "tfdir=$tfdir" >> $GITHUB_OUTPUT
           use_domain="${{ fromJson(env.RESOURCES)[inputs.resource]['use_domain'] }}"
-          echo "use_domain=$use_domain"
-          
-  #test:
-  #  uses: stpride/test1/.github/workflows/dd-out.yaml@main
-  #  with:
-  #    resource: ${{ inputs.data }}
+          echo "use_domain=$use_domain" >> $GITHUB_OUTPUT
+  Process:
+    needs: [Setup]
+    uses: stpride/test1/.github/workflows/dd-out.yaml@main
+    with:
+      tfkey: ${{ needs.Setup.outputs.tfkey }}
+      tfdir: ${{ needs.Setup.outputs.tfdir }}
+      use_domain: ${{ needs.Setup.outputs.use_domain }}
