@@ -13,8 +13,8 @@ on:
         type: string
       use_domain:
         description: 'Set TF_VAR_fq_domain=main'
-        type: number
-        default: 0
+        type: string
+        default: "false"
   
 jobs:
   job5:
