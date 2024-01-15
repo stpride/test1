@@ -13,6 +13,7 @@ on:
         - CCC
 
 env:
+  QUEUE: "joker"
   RESOURCES: >
     {
       "AAA": {
@@ -38,8 +39,9 @@ jobs:
       - name: Setup resource values
         shell: bash
         run: |
-          key="${{ fromJson(env.RESOURCE)[inputs.resource]['key'] }}"
-          echo $key
+          echo "queue=${{ env.QUEUE }}"
+          key="${{ fromJson(env.RESOURCES)[inputs.resource]['key'] }}"
+          echo "key=$key"
           
   #test:
   #  uses: stpride/test1/.github/workflows/dd-out.yaml@main
