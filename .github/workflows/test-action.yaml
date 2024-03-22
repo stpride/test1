@@ -19,4 +19,4 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Terraform
-        uses: stpride/test1/actions/monorepo@v1
+        uses: stpride/.github/actions/monorepo@v1
