@@ -3,13 +3,6 @@ name: Test Action
 on:
   workflow_dispatch:
 
-env:
-  PYTHON_VERSION: python3.9
-
-defaults:
-  run:
-    shell: bash
-
 jobs:
   test-action:
     runs-on: ubuntu-latest
@@ -18,5 +11,5 @@ jobs:
       - name: Checkout repository code
         uses: actions/checkout@v3
 
-      - name: Setup Terraform
+      - name: Run action
         uses: stpride/.github/.github/workflows/monorepo.yaml@main
