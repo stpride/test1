@@ -18,4 +18,4 @@ jobs:
       - name: See lambdas
         shell: bash
         run: |
-          echo ${{ steps.get-lambdas.output.lambdas }}
+          echo ${{ steps.get-lambdas.outputs.lambdas }}
