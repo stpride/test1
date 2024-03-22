@@ -1,0 +1,22 @@
+name: Test Action
+
+on:
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: python3.9
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  test-action:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v3
+
+      - name: Setup Terraform
+        uses: stpride/test1/actions/monorepo@v1
