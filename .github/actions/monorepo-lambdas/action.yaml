@@ -1,0 +1,31 @@
+name: Get list of monorepo lambdas
+description: Return list of monorepo lambdas or empty list if not a monorepo.
+inputs:
+  home_dir: 
+    type: string
+    default: ${{ env.GITHUB_WORKSPACE }}
+    required: false
+
+outputs:
+  lambdas:
+    value: ${{ steps.step1.outputs.lambdas }}
+
+runs:
+  using: "composite"
+  steps: 
+    - id: step1
+      shell: python
+      run: |
+        import json
+        import sys
+        import os
+
+        lambdas = []
+        dir = "${{ inputs.home_dir }}/src/lambdas"
+
+        if os.path.isdir(dir):
+          rv = [name for name in os.listdir(dir) if os.path.isdir(os.path.join(dir, name))]
+        
+        outputs_file = os.getenv("GITHUB_OUTPUT")
+        with open(outputs_file, "a") as f:
+          f.write(f"lambdas="+json.dumps(lambdas))
