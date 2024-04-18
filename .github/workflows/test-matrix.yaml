@@ -1,0 +1,98 @@
+name: Test DD
+
+on:
+  workflow_dispatch:
+    inputs:
+      resource:
+        description: 'Data'
+        required: false
+        type: choice
+        options:
+        - AAA
+        - BBB
+        - CCC
+
+env:
+  RESOURCES: >
+    {
+      "AAA": {
+        "key": "aaa-key",
+        "dir": "fq/aaa-dir",
+        "use_domain": "true"
+      },
+      "BBB": {
+        "key": "bbb-key",
+        "dir": "fq/bbb-dir"
+      },
+      "CCC": {
+        "key": "ccc-key",
+        "dir": "fq/ccc-dir",
+        "use_domain": "true"
+      },
+    }
+    
+jobs:
+  MonorepoLambdas:
+    runs-on: ubuntu-latest
+    outputs:
+      lambdas: ${{ steps.get-lambdas.outputs.result }}
+      environments: ${{ steps.setup.outputs.result }}
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+      - name: Run action
+        id: get-lambdas
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const lambdas = [];
+            lambdas.push({
+              "name": "lambda1",
+              "src-dir": "lambdas/lambda1/src",
+              "tf-dir": "lambdas/lambda1/terraform",
+              "monorepo": true
+            });
+            lambdas.push({
+              "name": "lambda2",
+              "src-dir": "lambdas/lambda2/src",
+              "tf-dir": "lambdas/lambda2/terraform",
+              "monorepo": true
+            });
+            return lambdas;
+      - name: Setup environments
+        uses: actions/github-script@v6
+        id: setup
+        with:
+          script: |
+            const environments = [];
+            environments.push({
+              "environment": "fq6",
+              "aws-region": "us-west-2",
+              "account-number": "300120355739"
+            });
+            return environments;
+
+  TerraformPreprocess:
+    needs: [MonorepoLambdas]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        deploy-environment: ${{ fromJson(needs.MonorepoLambdas.outputs.environments) }}
+        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.lambdas) }}
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Step1
+        shell: bash
+        run: |
+          echo "environment: ${{ matrix.deploy-environment.environment }}"
+          echo "aws-region: ${{ matrix.deploy-environment.aws-region }}"
+          echo "account-number: ${{ matrix.deploy-environment.account-number }}"
+          echo "lambda-name: ${{ matrix.lambdas.name }}"
+          echo "lambda-src-dir: ${{ matrix.lambdas.src-dir }}"
+          echo "lambda-tf-dir: ${{ matrix.lambdas.tf-dir }}"
+          echo "lambda-monorepo: ${{ matrix.lambdas.monorepo }}"
