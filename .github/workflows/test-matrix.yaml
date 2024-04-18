@@ -1,35 +1,7 @@
-name: Test DD
+name: Test Matrix
 
 on:
   workflow_dispatch:
-    inputs:
-      resource:
-        description: 'Data'
-        required: false
-        type: choice
-        options:
-        - AAA
-        - BBB
-        - CCC
-
-env:
-  RESOURCES: >
-    {
-      "AAA": {
-        "key": "aaa-key",
-        "dir": "fq/aaa-dir",
-        "use_domain": "true"
-      },
-      "BBB": {
-        "key": "bbb-key",
-        "dir": "fq/bbb-dir"
-      },
-      "CCC": {
-        "key": "ccc-key",
-        "dir": "fq/ccc-dir",
-        "use_domain": "true"
-      },
-    }
     
 jobs:
   MonorepoLambdas:
