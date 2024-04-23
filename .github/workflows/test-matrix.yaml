@@ -153,7 +153,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Step 1
-        uses: cloudposse/github-action-matrix-outputs-read@v1
+        uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
         id: read
         with:
           matrix-step-name: build-and-deploy-artifacts
