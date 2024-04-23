@@ -73,25 +73,44 @@ jobs:
           echo "lambda: ${{ matrix.lambdas.name }}"
           echo "dir: ${{ matrix.lambdas.dir }}"
           echo "monorepo: ${{ matrix.lambdas.monorepo }}"
+      #- name: Step 2
+      #  shell: python
+      #  run: |
+      #    import json
+      #    data={}
+      #    data["environment"] = "${{ matrix.deploy-environment.environment }}"
+      #    data["aws-region"] = "${{ matrix.deploy-environment.aws-region }}"
+      #    data["account-number"] = "${{ matrix.deploy-environment.account-number }}"
+      #    data["lambda"] = "${{ matrix.lambdas.name }}"
+      #    data["dir"] = "${{ matrix.lambdas.dir }}"
+      #    data["monorepo"] = "${{ matrix.lambdas.monorepo }}"
+      #    with open("/tmp/mydata","w") as fp:
+      #      json.dump(data,fp)
+      #- name: Step 3
+      #  uses: actions/upload-artifact@v4
+      #  with:
+      #    name: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
+      #    path: '/tmp/mydata'
+      #    retention: 1
+      #    overwrite: true
       - name: Step 2
-        shell: python
+        id: step2
+        shell: bash
         run: |
-          import json
-          data={}
-          data["environment"] = "${{ matrix.deploy-environment.environment }}"
-          data["aws-region"] = "${{ matrix.deploy-environment.aws-region }}"
-          data["account-number"] = "${{ matrix.deploy-environment.account-number }}"
-          data["lambda"] = "${{ matrix.lambdas.name }}"
-          data["dir"] = "${{ matrix.lambdas.dir }}"
-          data["monorepo"] = "${{ matrix.lambdas.monorepo }}"
-          with open("/tmp/mydata","w") as fp:
-            json.dump(data,fp)
+          if [ "${{ matrix.lambdas.name }}" == "lambda1" ]; then
+            echo "changes-found=true" >> $GITHUB_OUTPUT
+          else
+            echo "changes-found=false" >> $GITHUB_OUTPUT
+          fi
       - name: Step 3
-        uses: actions/upload-artifact@v4
+        id: step3
+        uses: cloudposse/github-action-matrix-outputs-write@47bfd07b833c59443a15353094aa2802a7613501
         with:
-          name: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
-          path: '/tmp/mydata'
-          retention: 1
-          overwrite: true
+          matrix-step-name: tpp-artifacts
+          matrix-key: '${{ matrix.deploy-environment.environment }}__${{ matrix.lambdas.name }}'
+          outputs: |-
+            changes-found: ${{ steps.step2.outputs.changes-found }}
+            pod: 'devops'
+            image-found: false
   
       
