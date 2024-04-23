@@ -113,4 +113,28 @@ jobs:
             pod: 'devops'
             image-found: false
   
-      
+  BuildandDeploy:
+    needs: [Preamble, MonorepoLambdas]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        deploy-environment: ${{ fromJson(needs.Preamble.outputs.data) }}
+        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.data) }}
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Step 1
+        uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
+        id: read
+        with:
+          matrix-step-name: tpp-artifacts
+      - name: Step 2
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(JSON.stringify('steps.read.outputs.result }}'));
+          
