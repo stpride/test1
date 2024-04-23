@@ -28,7 +28,7 @@ jobs:
       data: ${{ steps.setup.outputs.result }}
     steps:
       - name: Run action
-        id: get-lambdas
+        id: setup
         uses: actions/github-script@v6
         with:
           script: |
