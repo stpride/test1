@@ -73,5 +73,25 @@ jobs:
           echo "lambda: ${{ matrix.lambdas.name }}"
           echo "dir: ${{ matrix.lambdas.dir }}"
           echo "monorepo: ${{ matrix.lambdas.monorepo }}"
+      - name: Step 2
+        shell: python
+        run: |
+          import json
+          data={}
+          data["environment"] = "${{ matrix.deploy-environment.environment }}"
+          data["aws-region"] = "${{ matrix.deploy-environment.aws-region }}"
+          data["account-number"] = "${{ matrix.deploy-environment.account-number }}"
+          data["lambda"] = "${{ matrix.lambdas.name }}"
+          data["dir"] = "${{ matrix.lambdas.dir }}"
+          data["monorepo"] = "${{ matrix.lambdas.monorepo }}"
+          with open("/tmp/mydata","w") as fp:
+            json.dump(data,fp)
+      - name: Step 3
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}
+          path: /tmp/mydata
+          retention: 1
+          overwrite: true
   
       
