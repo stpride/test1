@@ -20,11 +20,11 @@ jobs:
               "aws-region": "us-west-2",
               "account-number": "300120355739"
             });
-            //environments.push({
-            //  "environment": "automation-eu",
-            //  "aws-region": "eu-central-1",
-            //  "account-number": "786172653746"
-            //});
+            environments.push({
+              "environment": "auto-eu",
+              "aws-region": "eu-central-1",
+              "account-number": "786172653746"
+            });
             return environments;
       
   MonorepoLambdas:
@@ -73,26 +73,6 @@ jobs:
           echo "lambda: ${{ matrix.lambdas.name }}"
           echo "dir: ${{ matrix.lambdas.dir }}"
           echo "monorepo: ${{ matrix.lambdas.monorepo }}"
-      #- name: Step 2
-      #  shell: python
-      #  run: |
-      #    import json
-      #    data={}
-      #    data["environment"] = "${{ matrix.deploy-environment.environment }}"
-      #    data["aws-region"] = "${{ matrix.deploy-environment.aws-region }}"
-      #    data["account-number"] = "${{ matrix.deploy-environment.account-number }}"
-      #    data["lambda"] = "${{ matrix.lambdas.name }}"
-      #    data["dir"] = "${{ matrix.lambdas.dir }}"
-      #    data["monorepo"] = "${{ matrix.lambdas.monorepo }}"
-      #    with open("/tmp/mydata","w") as fp:
-      #      json.dump(data,fp)
-      #- name: Step 3
-      #  uses: actions/upload-artifact@v4
-      #  with:
-      #    name: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
-      #    path: '/tmp/mydata'
-      #    retention: 1
-      #    overwrite: true
       - name: Step 2
         id: step2
         shell: bash
@@ -107,7 +87,7 @@ jobs:
         uses: cloudposse/github-action-matrix-outputs-write@47bfd07b833c59443a15353094aa2802a7613501
         with:
           matrix-step-name: terraform-preprocess-artifacts
-          matrix-key: '${{ matrix.lambdas.name }}'
+          matrix-key: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
           outputs: |-
             changes-found: ${{ steps.step2.outputs.changes-found }}
             pod: 'devops'
@@ -132,7 +112,7 @@ jobs:
         uses: cloudposse/github-action-matrix-outputs-write@47bfd07b833c59443a15353094aa2802a7613501
         with:
           matrix-step-name: build-and-deploy-artifacts
-          matrix-key: '${{ matrix.lambdas.name }}'
+          matrix-key: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
           outputs: |-
             bucket: 'mybucket-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
             key: 'mykey-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
@@ -154,12 +134,18 @@ jobs:
     steps:
       - name: Step 1
         uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
-        id: read
+        id: step1
+        with:
+          matrix-step-name: terraform-preprocess-artifacts
+      - name: Step 2
+        uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
+        id: step2
         with:
           matrix-step-name: build-and-deploy-artifacts
-      - name: Step 2
+      - name: Step 3
         uses: actions/github-script@v6
         with:
           script: |
-            console.log(JSON.stringify('${{ steps.read.outputs.result }}'));
+            console.log(JSON.stringify('${{ steps.step1.outputs.result }}'));
+            console.log(JSON.stringify('${{ steps.step2.outputs.result }}'));
           
