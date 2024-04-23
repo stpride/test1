@@ -158,7 +158,8 @@ jobs:
         with:
           matrix-step-name: build-and-deploy-artifacts
       - name: Step 2
-        shell: bash
-        run: |
-          echo "${{ fromJson(steps.read.outputs.result) }}"
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log(JSON.stringify('${{ steps.read.outputs.result }}'));
           
