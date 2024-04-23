@@ -138,3 +138,27 @@ jobs:
             key: 'mykey-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
             sha-256: 'mysha-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
           
+  ApplyandUpdate:
+    needs: [Preamble, MonorepoLambdas, TerraformPreprocess, BuildandDeploy]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        deploy-environment: ${{ fromJson(needs.Preamble.outputs.data) }}
+        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.data) }}
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - name: Step 1
+        uses: cloudposse/github-action-matrix-outputs-read@v1
+        id: read
+        with:
+          matrix-step-name: build-and-deploy-artifacts
+      - name: Step 2
+        shell: bash
+        run: |
+          echo "${{ fromJson(steps.read.outputs.result) }}"
+          
