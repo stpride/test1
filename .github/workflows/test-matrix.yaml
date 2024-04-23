@@ -4,33 +4,11 @@ on:
   workflow_dispatch:
     
 jobs:
-  MonorepoLambdas:
+  Preamble:
     runs-on: ubuntu-latest
     outputs:
-      lambdas: ${{ steps.get-lambdas.outputs.result }}
-      environments: ${{ steps.setup.outputs.result }}
+      data: ${{ steps.setup.outputs.result }}
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-      - name: Run action
-        id: get-lambdas
-        uses: actions/github-script@v6
-        with:
-          script: |
-            const lambdas = [];
-            lambdas.push({
-              "name": "lambda1",
-              "src-dir": "lambdas/lambda1/src",
-              "tf-dir": "lambdas/lambda1/terraform",
-              "monorepo": true
-            });
-            lambdas.push({
-              "name": "lambda2",
-              "src-dir": "lambdas/lambda2/src",
-              "tf-dir": "lambdas/lambda2/terraform",
-              "monorepo": true
-            });
-            return lambdas;
       - name: Setup environments
         uses: actions/github-script@v6
         id: setup
@@ -43,15 +21,33 @@ jobs:
               "account-number": "300120355739"
             });
             return environments;
+      
+  MonorepoLambdas:
+    runs-on: ubuntu-latest
+    outputs:
+      data: ${{ steps.setup.outputs.result }}
+    steps:
+      - name: Run action
+        id: get-lambdas
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const lambdas = [];
+            lambdas.push({
+              "name": "enigma_machine",
+              "dir": "."
+              "monorepo": false
+            });
+            return lambdas;
 
   TerraformPreprocess:
-    needs: [MonorepoLambdas]
+    needs: [Preamble, MonorepoLambdas]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        deploy-environment: ${{ fromJson(needs.MonorepoLambdas.outputs.environments) }}
-        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.lambdas) }}
+        deploy-environment: ${{ fromJson(needs.Preamble.outputs.data) }}
+        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.data) }}
     permissions:
       actions: read
       contents: read
@@ -64,38 +60,8 @@ jobs:
           echo "environment: ${{ matrix.deploy-environment.environment }}"
           echo "aws-region: ${{ matrix.deploy-environment.aws-region }}"
           echo "account-number: ${{ matrix.deploy-environment.account-number }}"
-          echo "lambda-name: ${{ matrix.lambdas.name }}"
-          echo "lambda-src-dir: ${{ matrix.lambdas.src-dir }}"
-          echo "lambda-tf-dir: ${{ matrix.lambdas.tf-dir }}"
-          echo "lambda-monorepo: ${{ matrix.lambdas.monorepo }}"
-
-  BuildAndDeploy:
-    needs: [MonorepoLambdas]
-    runs-on: ubuntu-20.04
-    strategy:
-      fail-fast: false
-      matrix:
-        deploy-environment: ${{ fromJson(needs.MonorepoLambdas.outputs.environments) }}
-        lambdas: ${{ fromJson(needs.MonorepoLambdas.outputs.lambdas) }}
-    permissions:
-      contents: read
-      id-token: write
-    steps:
-      - name: s3-artifacts-path
-        id: s3-artifacts-path
-        shell: bash
-        run: |
-          # path without the final key
-          echo "artifact_path=s3://fq-${{ matrix.deploy-environment.environment }}-artifacts/${{ matrix.deploy-environment.environment }}/${{ github.event.repository.name }}/${{ matrix.lambdas.name }}/${{ github.ref_name }}-${{ github.sha }}" >> $GITHUB_OUTPUT
-          # bucket only
-          echo "artifact_bucket=fq-${{ matrix.deploy-environment.environment }}-artifacts" >> $GITHUB_OUTPUT
-          # full path to key
-          echo "artifact_key=${{ matrix.deploy-environment.environment }}/${{ github.event.repository.name }}/${{ matrix.lambdas.name }}/${{ github.ref_name }}-${{ github.sha }}/lambda-archive.zip" >> $GITHUB_OUTPUT
-
-#outputs:
-#  artifact_path:
-#    value: ${{ steps.generate-path.outputs.artifact_path }}
-#  artifact_bucket:
-#    value: ${{ steps.generate-path.outputs.artifact_bucket }}
-#  artifact_key:
-#    value: ${{ steps.generate-path.outputs.artifact_key }}
+          echo "lambda: ${{ matrix.lambdas.name }}"
+          echo "dir: ${{ matrix.lambdas.dir }}"
+          echo "monorepo: ${{ matrix.lambdas.monorepo }}"
+  
+      
