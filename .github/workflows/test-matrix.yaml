@@ -114,7 +114,7 @@ jobs:
             image-found: false
   
   BuildandDeploy:
-    needs: [Preamble, MonorepoLambdas]
+    needs: [TerraformPreprocess]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
