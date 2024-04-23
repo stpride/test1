@@ -45,7 +45,7 @@ jobs:
             });
             lambdas.push({
               "name": "lambda2",
-              "dir": "lambdas/lambda1",
+              "dir": "lambdas/lambda2",
               "monorepo": true
             });
             return lambdas;
