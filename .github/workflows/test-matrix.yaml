@@ -89,8 +89,8 @@ jobs:
       - name: Step 3
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}
-          path: /tmp/mydata
+          name: '${{ matrix.deploy-environment.environment }}#${{ matrix.lambdas.name }}'
+          path: '/tmp/mydata'
           retention: 1
           overwrite: true
   
