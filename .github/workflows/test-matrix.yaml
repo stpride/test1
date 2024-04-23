@@ -20,6 +20,11 @@ jobs:
               "aws-region": "us-west-2",
               "account-number": "300120355739"
             });
+            environments.push({
+              "environment": "automation-eu",
+              "aws-region": "eu-central-1",
+              "account-number": "786172653746"
+            });
             return environments;
       
   MonorepoLambdas:
@@ -34,9 +39,14 @@ jobs:
           script: |
             const lambdas = [];
             lambdas.push({
-              "name": "enigma_machine",
-              "dir": ".",
-              "monorepo": false
+              "name": "lambda1",
+              "dir": "lambdas/lambda1",
+              "monorepo": true
+            });
+            lambdas.push({
+              "name": "lambda2",
+              "dir": "lambdas/lambda1",
+              "monorepo": true
             });
             return lambdas;
 
