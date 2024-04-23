@@ -106,15 +106,15 @@ jobs:
         id: step3
         uses: cloudposse/github-action-matrix-outputs-write@47bfd07b833c59443a15353094aa2802a7613501
         with:
-          matrix-step-name: tpp-artifacts
-          matrix-key: '${{ matrix.deploy-environment.environment }}__${{ matrix.lambdas.name }}'
+          matrix-step-name: terraform-preprocess-artifacts
+          matrix-key: '${{ matrix.lambdas.name }}'
           outputs: |-
             changes-found: ${{ steps.step2.outputs.changes-found }}
             pod: 'devops'
             image-found: false
   
   BuildandDeploy:
-    needs: [Preamble, MonorepoLambdas, TerraformPreprocess]
+    needs: [Preamble, MonorepoLambdas]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -128,13 +128,13 @@ jobs:
       pull-requests: write
     steps:
       - name: Step 1
-        uses: cloudposse/github-action-matrix-outputs-read@ea1c28d66c34b8400391ed74d510f66abc392d5e
-        id: read
+        id: step1
+        uses: cloudposse/github-action-matrix-outputs-write@47bfd07b833c59443a15353094aa2802a7613501
         with:
-          matrix-step-name: tpp-artifacts
-      - name: Step 2
-        uses: actions/github-script@v6
-        with:
-          script: |
-            console.log(JSON.stringify('${{ steps.read.outputs.result }}'));
+          matrix-step-name: build-and-deploy-artifacts
+          matrix-key: '${{ matrix.lambdas.name }}'
+          outputs: |-
+            bucket: 'mybucket-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
+            key: 'mykey-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
+            sha-256: 'mysha-${{ matrix.deploy-environment.environment }}-${{ matrix.lambdas.name }}'
           
