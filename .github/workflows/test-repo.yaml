@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          repository: main-wf
+          repository: stpride/main-wf
           path: './bar'
 
       - name: Test
