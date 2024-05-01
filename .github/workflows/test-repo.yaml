@@ -1,0 +1,24 @@
+name: Test Repo
+
+on:
+  workflow_dispatch:
+    
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          repository: main-wf
+          path: './bar'
+
+      - name: Test
+        shell: bash
+        run: |
+          ls -l
+          echo "-----------"
+          ls -l ./bar
