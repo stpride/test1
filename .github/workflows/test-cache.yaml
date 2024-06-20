@@ -5,7 +5,11 @@ on: [workflow_dispatch]
 defaults:
   run:
     shell: bash
-    
+
+env:
+  TF_DIR: ${{ github.workspace }}/terraform-cach
+  TF_PLUGIN_CACHE_DIR: ${{ github.workspace }}/terraform-cach/.terraform.d/plugin-cache
+  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -20,18 +24,18 @@ jobs:
 
       - name: Configure Terraform plugin cache
         run: |
-          echo 'plugin_cache_dir = "$HOME/terraform-cach/.terraform.d/plugin-cache"' > ~/terraform-cach/.terraformrc
-          mkdir -p ~/terraform-cach/.terraform.d/plugin-cache
+          echo 'plugin_cache_dir = "${{ env.TF_PLUGIN_CACHE_DIR }}"' > ${{ env.TF_DIR }}/.terraformrc
+          mkdir -p ${{ env.TF_PLUGIN_CACHE_DIR }}
           
       - name: Cache Terraform
         uses: actions/cache@v3
         with:
-          path: ~/terraform-cach/.terraform.d/plugin-cache
-          key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/.terraform.lock.hcl', ~/terraform-cach)) }}
+          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
+          key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/.terraform.lock.hcl', env.TF_DIR)) }}
           restore-keys: ${{ runner.os }}-terraform-
 
       - name: TF Init
-        working-directory: ~/terraform-cach
+        working-directory: ${{ env.TF_DIR }}
         run: |
           terraform init
       
