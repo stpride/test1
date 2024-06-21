@@ -31,9 +31,10 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.TF_PLUGIN_CACHE_DIR }}
-          key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/.terraform.lock.hcl', env.TF_DIR)) }}
-          restore-keys: ${{ runner.os }}-terraform-
-
+          key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/*.tf', env.TF_DIR)) }}
+          #restore-keys: ${{ runner.os }}-terraform-
+          #key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/.terraform.lock.hcl', env.TF_DIR)) }}
+        
       - name: TF Init
         working-directory: ${{ env.TF_DIR }}
         run: |
