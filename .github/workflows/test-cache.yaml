@@ -24,6 +24,7 @@ jobs:
 
       - name: Configure Terraform plugin cache
         run: |
+          find ${{ github.workspace }} -type f
           echo 'plugin_cache_dir = "${{ env.TF_PLUGIN_CACHE_DIR }}"' > ${{ env.TF_DIR }}/.terraformrc
           mkdir -p ${{ env.TF_PLUGIN_CACHE_DIR }}
           
@@ -39,4 +40,6 @@ jobs:
         working-directory: ${{ env.TF_DIR }}
         run: |
           terraform init
+          find ${{ github.workspace }} -type f
+          
       
