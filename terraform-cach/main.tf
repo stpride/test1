@@ -11,6 +11,6 @@ provider "aws" {
 }
 
 module "something" {
-  src = "../modules/something"
+  source = "../modules/something"
   name = "hello"
 }
