@@ -24,15 +24,14 @@ jobs:
 
       - name: Configure Terraform plugin cache
         run: |
-          find ${{ env.TF_DIR }} -type f
-          echo 'plugin_cache_dir = "${{ env.TF_PLUGIN_CACHE_DIR }}"' > ${{ env.TF_DIR }}/.terraformrc
-          mkdir -p ${{ env.TF_PLUGIN_CACHE_DIR }}
+          echo 'plugin_cache_dir = "$HOME/.terraform.d/plugin-cache"' > ~/.terraformrc
+          mkdir -p ~/.terraform.d/plugin-cache
           
       - name: Cache Terraform
         uses: actions/cache@v3
         with:
-          path: ${{ env.TF_PLUGIN_CACHE_DIR }}
-          key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/*.tf', env.TF_DIR)) }}
+          path:  ~/.terraform.d/plugin-cache
+          key: terraform-${{ hashFiles(format('{0}/*.tf', env.TF_DIR)) }}
           #restore-keys: ${{ runner.os }}-terraform-
           #key: ${{ runner.os }}-terraform-${{ hashFiles(format('{0}/.terraform.lock.hcl', env.TF_DIR)) }}
         
