@@ -39,6 +39,5 @@ jobs:
         working-directory: ${{ env.TF_DIR }}
         run: |
           terraform init
-          find ${{ env.TF_DIR }} -type f
           
       
